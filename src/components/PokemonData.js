@@ -3,21 +3,13 @@ import {
   AspectRatio,
   Image,
   Stack,
-  SimpleGrid,
-  Heading,
-  Tabs,
-  TabList,
-  TabPanels,
-  TabPanel,
   Progress,
   Text,
-  Tab,
   Badge,
   HStack,
   Checkbox,
 } from "@chakra-ui/react";
-import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function PokemonData({ pokemon }) {
   const [catched, setCatched] = useState(false);
