@@ -73,7 +73,7 @@ export default function PokemonCard({ pokemon, isCatched, isSaved, handleViewPok
         }
         {isCatched &&
           <Tooltip label="Catched">
-            <Avatar position={"absolute"} size={"xs"} src="/logo.png" top={2} right={2} />
+            <Avatar position={"absolute"} size={"xs"} src="/logo.png" alt="pokeball image" top={2} right={2} />
           </Tooltip>
         }
         <AspectRatio w="full" ratio={1}>

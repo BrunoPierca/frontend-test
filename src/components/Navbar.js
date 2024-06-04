@@ -55,11 +55,11 @@ const Navbar = () => {
                 </InputGroup>
             </Flex>
             <Flex gap={2}>
-                <Button onClick={toggleColorMode}>
+                <Button name='Toggle theme' onClick={toggleColorMode}>
                     {colorMode === 'light' ? <MdDarkMode /> : <GoLightBulb />}
                 </Button>
                 <Menu placement='bottom-end'>
-                    <MenuButton as={Button} >
+                    <MenuButton name='Toggle menu' as={Button} >
                         <LuMenu />
                     </MenuButton>
                     <MenuList>
