@@ -1,10 +1,14 @@
 import { JsonDB, Config } from "node-json-db";
 
-export default async function handler(req, res) {
+export const getServerSavedPokemons = async () => {
   const db = new JsonDB(new Config("db", true, false, "/"));
-  if (req.method === "GET") {
-    const data = await db.getData("/savedPokemon");
+  const data = await db.getData("/savedPokemon");
+  return data
+}
 
+export default async function handler(req, res) {
+  if (req.method === "GET") {
+    const data = await getServerSavedPokemons()
     return res.status(200).json({ results: data, count: data.length });
   }
 
@@ -15,6 +19,7 @@ export default async function handler(req, res) {
       url: req.body.url
     };
 
+    const db = new JsonDB(new Config("db", true, false, "/"));
     const index = await db.getIndex("/savedPokemon", Number(newPokemon.id));
 
     if (index === -1) {

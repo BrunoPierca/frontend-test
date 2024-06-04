@@ -2,8 +2,18 @@ import Head from "next/head";
 import useSWRInfinite from 'swr/infinite'
 import PokemonGrid from "@/components/PokemonGrid";
 import { fetchPokemonList, getPokeapiKey } from "@/utils/pokemon";
+import { getServerSavedPokemons } from "./api/saved";
+import { getServerCatchedPokemons } from "./api/catched";
 
-export default function Home() {
+export const getServerSideProps = (async () => {
+  // Fetch data from external API
+  const catchedPokemons = await getServerCatchedPokemons()
+  const savedPokemons = await getServerSavedPokemons()
+  // Pass data to the page via props
+  return { props: { savedPokemons, catchedPokemons } }
+})
+
+export default function Home({ savedPokemons, catchedPokemons }) {
   const pokemonData = useSWRInfinite(getPokeapiKey, fetchPokemonList);
   return (
     <>
@@ -14,7 +24,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <PokemonGrid {...pokemonData} />
+      <PokemonGrid {...pokemonData} savedPokemons={savedPokemons} catchedPokemons={catchedPokemons} />
     </>
   );
 }
