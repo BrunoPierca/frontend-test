@@ -6,7 +6,7 @@ export default async function handler(req, res) {
   if (req.method === "GET") {
     const query = req.query;
     const { pokemonId } = query;
-    var data = await db.getData("/");
+    const data = await db.getData("/");
 
     return res
       .status(200)
@@ -18,8 +18,8 @@ export default async function handler(req, res) {
 
       await db.delete(
         "/catchedPokemon[" +
-          (await db.getIndex("/catchedPokemon", Number(pokemonId))) +
-          "]"
+        (await db.getIndex("/catchedPokemon", Number(pokemonId))) +
+        "]"
       );
 
       return res.status(200).send("Pokemon liberado");
