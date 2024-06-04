@@ -15,9 +15,9 @@ const PokemonGrid = ({ size, isLoading, setSize, data }) => {
     }
     return (
         <>
-            <Skeleton isLoaded={!isLoading}>
+            <Skeleton isLoaded={!isLoading || !data}>
                 <SimpleGrid spacing="5" columns={{ base: 1, md: 5 }}>
-                    {data && data.map((page) => page.results.map((pokemon) => <PokemonCard
+                    {data && data[0].results && data.map((page) => page.results.map((pokemon) => <PokemonCard
                         key={pokemon.url}
                         handleViewPokemon={handleViewPokemon}
                         pokemon={pokemon}
@@ -25,9 +25,13 @@ const PokemonGrid = ({ size, isLoading, setSize, data }) => {
                 </SimpleGrid>
 
             </Skeleton>
-            <Button isLoading={isLoadingMore} onClick={() => setSize(size + 1)}>
-                Load more
-            </Button>
+            {data && data[0].results ?
+                <Button isLoading={isLoadingMore} onClick={() => setSize(size + 1)}>
+                    Load more
+                </Button>
+                :
+                "No pokemons to show"
+            }
             <PokemonModal pokemonDataModal={pokemonDataModal} selectedPokemon={selectedPokemon} />
         </>
     )
