@@ -19,6 +19,10 @@ export const getPokeapiKey = (pageIndex) => {
     return `https://pokeapi.co/api/v2/pokemon/?limit=${itemsPerPage}&offset=${itemsPerPage * pageIndex}`
 }
 
+export const getUnpaginatedPokeapiKey = () => {
+    return `https://pokeapi.co/api/v2/pokemon/?limit=2000`
+}
+
 // Own API handling
 export const savePokemon = async (pokemon) => {
     try {

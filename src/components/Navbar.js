@@ -6,8 +6,9 @@ import { LuMenu } from "react-icons/lu";
 
 
 import Image from 'next/image'
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 
 export const navbarHeight = "64px"
 
@@ -17,7 +18,10 @@ const Navbar = () => {
     const bg = useColorModeValue('rgba(255, 255, 255, 0.8)', 'rgba(26, 32, 44, 0.8)')
     const inputForegroundBg = useColorModeValue('rgb(255, 255, 255)', 'rgb(26, 32, 44)')
 
-
+    const router = useRouter()
+    useEffect(() => {
+        if (term <= 0) { router.push("/") } else { router.push(`/search?term=${term}`) }
+    }, [term])
     return (
         <Flex id="navbar"
             w={"100%"}
