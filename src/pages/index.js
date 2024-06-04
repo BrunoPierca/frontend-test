@@ -16,6 +16,7 @@ import PokemonCard from "@/components/PokemonCard";
 import PokemonModal from "@/components/PokemonModal";
 
 import Navbar, { navbarHeight } from "@/components/Navbar";
+import PokemonGrid from "@/components/PokemonGrid";
 
 const fetchPokemonList = async (url) => {
   try {
@@ -35,18 +36,7 @@ const getKey = (pageIndex) => {
   return `https://pokeapi.co/api/v2/pokemon/?limit=${itemsPerPage}&offset=${itemsPerPage * pageIndex}`
 }
 export default function Home() {
-  const pokemonDataModal = useDisclosure();
-
-  const { data, error, isLoading, setSize, size } = useSWRInfinite(getKey, fetchPokemonList);
-  const [selectedPokemon, setSelectedPokemon] = useState();
-
-  const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
-
-  function handleViewPokemon(pokemon) {
-    setSelectedPokemon(pokemon);
-    pokemonDataModal.onOpen();
-  }
-
+  const pokemonData = useSWRInfinite(getKey, fetchPokemonList);
   return (
     <>
       <Head>
@@ -56,27 +46,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Flex alignItems="center" direction={"column"} minH="100vh" justifyContent="center">
-        <Navbar />
-        <Container paddingTop={navbarHeight} maxW="container.lg">
-          <Stack p="5" alignItems="center" spacing="5">
-            <Skeleton isLoaded={!isLoading}>
-              <SimpleGrid spacing="5" columns={{ base: 1, md: 5 }}>
-                {data && data.map((page) => page.results.map((pokemon) => <PokemonCard
-                  key={pokemon.url}
-                  handleViewPokemon={handleViewPokemon}
-                  pokemon={pokemon}
-                />))}
-              </SimpleGrid>
-
-            </Skeleton>
-            <Button isLoading={isLoadingMore} onClick={() => setSize(size + 1)}>
-              Cargar más
-            </Button>
-          </Stack>
-        </Container>
-      </Flex>
-      <PokemonModal pokemonDataModal={pokemonDataModal} selectedPokemon={selectedPokemon} />
+      <PokemonGrid {...pokemonData} />
     </>
   );
 }
