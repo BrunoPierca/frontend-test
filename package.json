@@ -19,7 +19,8 @@
     "node-json-db": "^2.3.0",
     "react": "^18",
     "react-dom": "^18",
-    "react-icons": "^4.11.0"
+    "react-icons": "^4.11.0",
+    "swr": "^2.2.5"
   },
   "devDependencies": {
     "eslint": "^8",
