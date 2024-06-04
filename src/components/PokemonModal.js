@@ -5,12 +5,12 @@ const PokemonModal = ({ pokemonDataModal , selectedPokemon }) => {
     return (
         <Modal {...pokemonDataModal}>
             <ModalOverlay />
-            <ModalContent>
-                <ModalHeader textTransform="capitalize">
+            <ModalContent mx={[2, 0]} >
+                <ModalHeader textTransform="capitalize" px={[4,6]}>
                     {selectedPokemon?.name}
                 </ModalHeader>
                 <ModalCloseButton />
-                <ModalBody>
+                <ModalBody px={[4,6]} >
                     {selectedPokemon && <PokemonData pokemon={selectedPokemon} />}
                 </ModalBody>
             </ModalContent>
