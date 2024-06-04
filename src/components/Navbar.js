@@ -1,4 +1,4 @@
-import { Button, Flex, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuList, Select, Text, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Button, Flex, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Select, Text, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { GoLightBulb } from "react-icons/go";
 import { MdDarkMode } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
@@ -19,9 +19,10 @@ const Navbar = () => {
     const inputForegroundBg = useColorModeValue('rgb(255, 255, 255)', 'rgb(26, 32, 44)')
 
     const router = useRouter()
-    useEffect(() => {
-        if (term <= 0) { router.push("/") } else { router.push(`/search?term=${term}`) }
-    }, [term])
+    // useEffect(() => {
+    //     if (term <= 0) { router.push("/") } else { router.push(`/search?term=${term}`) }
+    // }, [term])
+
     return (
         <Flex id="navbar"
             w={"100%"}
@@ -62,20 +63,26 @@ const Navbar = () => {
                         <LuMenu />
                     </MenuButton>
                     <MenuList>
-                        <Link href="/">
-                            <MenuItem>All</MenuItem>
-                        </Link>
-                        <Link href="saved">
-                            <MenuItem>Saved</MenuItem>
-                        </Link>
-                        <Link href="catched">
-                            <MenuItem>Catched</MenuItem>
-                        </Link>
+                        <MenuOptionGroup value={router.pathname}>
+                            <MenuItemOption value='/' onClick={() => router.push("/")}>
+                                <Link href="/">
+                                    All
+                                </Link>
+                            </MenuItemOption>
+                            <MenuItemOption value="/saved" onClick={() => router.push("/saved")}>
+                                Saved
+                            </MenuItemOption>
+                            <MenuItemOption value="/catched" onClick={() => router.push("/catched")} >
+                                <Link href="catched">
+                                    Catched
+                                </Link>
+                            </MenuItemOption>
+                        </MenuOptionGroup>
                     </MenuList>
                 </Menu>
             </Flex>
 
-        </Flex>
+        </Flex >
     )
 }
 
