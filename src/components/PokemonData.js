@@ -10,14 +10,16 @@ import {
   Button,
   useToast,
 } from "@chakra-ui/react";
+import { useRouter } from "next/router";
 import { MdCatchingPokemon } from "react-icons/md";
 import { MdOutlineCollectionsBookmark } from "react-icons/md";
 
 
-export default function PokemonData({ pokemon }) {
-  const toast = useToast()
+export default function PokemonData({ pokemon, onToggleModal }) {
+  const toast = useToast({ position: "bottom-right", duration: 5000, isClosable: true })
   const bg = useColorModeValue('rgba(255, 255, 255, 0.8)', 'rgba(26, 32, 44, 0.8)')
   const progressBg = useColorModeValue('gray.300', 'gray.700')
+  const router = useRouter()
 
   const handleRemoveSaved = async (pokemon) => {
     try {
@@ -26,17 +28,15 @@ export default function PokemonData({ pokemon }) {
         title: `Removed ${pokemon.name}`,
         description: "He had to go...",
         status: 'success',
-        duration: 9000,
-        isClosable: true,
       })
+      router.replace(router.asPath)
+      onToggleModal()
     } catch (error) {
       console.log(error)
       toast({
         title: `Couldn't remove ${pokemon.name}`,
         description: "Please try again later",
         status: 'error',
-        duration: 9000,
-        isClosable: true,
       })
     }
   }
@@ -48,17 +48,15 @@ export default function PokemonData({ pokemon }) {
         title: `Released ${pokemon.name}`,
         description: "We'll probably see him again soon",
         status: 'success',
-        duration: 9000,
-        isClosable: true,
       })
+      router.replace(router.asPath)
+      onToggleModal()
     } catch (error) {
       console.log(error)
       toast({
         title: `Couldn't release ${pokemon.name}`,
         description: "Please try again later",
         status: 'error',
-        duration: 9000,
-        isClosable: true,
       })
     }
   }
@@ -70,17 +68,15 @@ export default function PokemonData({ pokemon }) {
         title: `Saved ${pokemon.name}`,
         description: "Check it in saved list",
         status: 'success',
-        duration: 9000,
-        isClosable: true,
       })
+      router.replace(router.asPath)
+      onToggleModal()
     } catch (error) {
       console.log(error)
       toast({
         title: `Couldn't save ${pokemon.name}`,
         description: "Please try again later",
         status: 'error',
-        duration: 9000,
-        isClosable: true,
       })
     }
   }
@@ -91,17 +87,15 @@ export default function PokemonData({ pokemon }) {
         title: `Catched ${pokemon.name}`,
         description: "Check it in saved list",
         status: 'success',
-        duration: 9000,
-        isClosable: true,
       })
+      router.replace(router.asPath)
+      onToggleModal()
     } catch (error) {
       console.log(error)
       toast({
         title: `Couldn't catch ${pokemon.name}`,
         description: "Please try again later",
         status: 'error',
-        duration: 9000,
-        isClosable: true,
       })
     }
   }
