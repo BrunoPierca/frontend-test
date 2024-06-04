@@ -35,7 +35,7 @@ const Navbar = () => {
             zIndex={20}
         >
             <Flex alignItems={"center"} gap={2}>
-                <Image width={32} height={32} src="/logo.png" />
+                <Image width={32} height={32} src="/logo.png" alt='Pokeball logo' />
                 <Text display={["none", "block"]}>
                     Pokédex
                 </Text>
