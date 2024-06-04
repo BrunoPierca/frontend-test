@@ -30,10 +30,31 @@ export const savePokemon = async (pokemon) => {
     }
 }
 
+export const removeSavedPokemon = async (pokemon) => {
+    try {
+        const { data } = await axios.delete("/api/saved/" + pokemon.id,)
+        return data
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+
+
 export const catchPokemon = async (pokemon) => {
     try {
-        console.log("catching")
         const { data } = await axios.post("/api/catched/", pokemon)
+        return data
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+export const releasePokemon = async (pokemon) => {
+    try {
+        const { data } = await axios.delete("/api/catched/" + pokemon.id,)
         return data
     } catch (error) {
         console.log(error)

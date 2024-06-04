@@ -1,31 +1,67 @@
-import { catchPokemon, savePokemon } from "@/utils/pokemon";
+import { catchPokemon, savePokemon, releasePokemon, removeSavedPokemon } from "@/utils/pokemon";
 import {
   AspectRatio,
   Image,
   Stack,
   Progress,
   Text,
-  Checkbox,
   useColorModeValue,
   Flex,
   Button,
   useToast,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { MdCatchingPokemon } from "react-icons/md";
 import { MdOutlineCollectionsBookmark } from "react-icons/md";
 
 
 export default function PokemonData({ pokemon }) {
-  const [isCatched, setIsCatched] = useState(false);
-  const [isSaved, setIsSaved] = useState(false);
   const toast = useToast()
-
-
-
   const bg = useColorModeValue('rgba(255, 255, 255, 0.8)', 'rgba(26, 32, 44, 0.8)')
   const progressBg = useColorModeValue('gray.300', 'gray.700')
 
+  const handleRemoveSaved = async (pokemon) => {
+    try {
+      await removeSavedPokemon(pokemon)
+      toast({
+        title: `Removed ${pokemon.name}`,
+        description: "He had to go...",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: `Couldn't remove ${pokemon.name}`,
+        description: "Please try again later",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
+
+  const handleRelease = async (pokemon) => {
+    try {
+      await releasePokemon(pokemon)
+      toast({
+        title: `Released ${pokemon.name}`,
+        description: "We'll probably see him again soon",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: `Couldn't release ${pokemon.name}`,
+        description: "Please try again later",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
 
   const handleSave = async (pokemon) => {
     try {
@@ -99,16 +135,36 @@ export default function PokemonData({ pokemon }) {
           }
         </Stack>
         <Flex direction={["row"]} gap={5} justifyContent={"space-evenly"} alignItems={"center"}>
-          <Button variant={"outline"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => handleSave(pokemon)}
-          >
-            <MdOutlineCollectionsBookmark />
-            <Text>Save</Text>
-          </Button>
-          <Button variant={"solid"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2}
-            onClick={() => handleCatch(pokemon)}>
-            <MdCatchingPokemon />
-            <Text>Catched</Text>
-          </Button>
+          {pokemon.isSaved ?
+            <Button variant={"outline"} colorScheme={"red"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => handleRemoveSaved(pokemon)}
+            >
+              <MdOutlineCollectionsBookmark />
+              <Text>Remove</Text>
+            </Button>
+            :
+            <Button variant={"outline"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => handleSave(pokemon)}
+            >
+              <MdOutlineCollectionsBookmark />
+              <Text>Save</Text>
+            </Button>
+          }
+
+          {pokemon.isCatched ?
+            <Button variant={"outline"} colorScheme={"green"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => handleRelease(pokemon)}
+            >
+              <MdOutlineCollectionsBookmark />
+              <Text>Release</Text>
+            </Button>
+            :
+            <Button variant={"solid"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2}
+              onClick={() => handleCatch(pokemon)}>
+              <MdCatchingPokemon />
+              <Text>Catched</Text>
+            </Button>
+          }
+
+
+
         </Flex>
       </Stack>
     </Stack>
