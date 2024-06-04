@@ -2,9 +2,12 @@ import { Button, SimpleGrid, Skeleton, useDisclosure } from "@chakra-ui/react";
 import { useState } from "react";
 import PokemonCard from "./PokemonCard";
 import PokemonModal from "./PokemonModal";
+import { itemsPerPage } from "@/utils/pokemon";
+import { useRouter } from "next/router";
 
 const PokemonGrid = ({ size, isLoading, setSize, data }) => {
     const pokemonDataModal = useDisclosure();
+    const router = useRouter()
     const [selectedPokemon, setSelectedPokemon] = useState();
 
     const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
@@ -26,8 +29,11 @@ const PokemonGrid = ({ size, isLoading, setSize, data }) => {
 
             </Skeleton>
             {data && data[0].results ?
-                <Button isLoading={isLoadingMore} onClick={() => setSize(size + 1)}>
-                    Load more
+                <Button isLoading={isLoadingMore}
+                    onClick={() =>
+                        data[0].count > itemsPerPage ? setSize(size + 1) : router.push("/")}
+                >
+                    {data[0].count > itemsPerPage ? "Load more" : "Catch more"}
                 </Button>
                 :
                 "No pokemons to show"
