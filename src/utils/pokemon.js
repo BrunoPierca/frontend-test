@@ -20,6 +20,23 @@ export const getPokeapiKey = (pageIndex) => {
 }
 
 // Own API handling
-export const getSavedKey = (pageIndex) => {
-    return `/api/saved/?limit=${itemsPerPage}&offset=${itemsPerPage * pageIndex}`
+export const savePokemon = async (pokemon) => {
+    try {
+        const { data } = await axios.post("/api/saved/", pokemon)
+        return data
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
+export const catchPokemon = async (pokemon) => {
+    try {
+        console.log("catching")
+        const { data } = await axios.post("/api/catched/", pokemon)
+        return data
+    } catch (error) {
+        console.log(error)
+        return error
+    }
 }
