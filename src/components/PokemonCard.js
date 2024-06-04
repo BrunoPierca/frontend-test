@@ -47,7 +47,7 @@ const pokemonTypeColors = [
   { name: "?", value: "" },
 ]
 
-export default function PokemonCard({ pokemon, handleViewPokemon }) {
+export default function PokemonCard({ pokemon, isCatched, isSaved, handleViewPokemon }) {
   const { data: pokemonData, isLoading } = useSWR(`pokemon-${pokemon.name}}`, () => fetchOnePokemon(pokemon.url));
   if (isLoading) return
   return (
@@ -63,14 +63,19 @@ export default function PokemonCard({ pokemon, handleViewPokemon }) {
         onClick={() => handleViewPokemon({ ...pokemon, ...pokemonData })}
         position={"relative"}
       >
-        <Tooltip label="Saved">
-          <Flex justifyContent={"center"} alignItems={"center"} w={"24px"} h={"24px"} position={"absolute"} top={2} left={2} >
-            <FaBookmark />
-          </Flex>
-        </Tooltip>
-        <Tooltip label="Catched">
-          <Avatar position={"absolute"} size={"xs"} src="/logo.png" top={2} right={2} />
-        </Tooltip>
+        {isSaved &&
+          <Tooltip label="Saved">
+            <Flex justifyContent={"center"} alignItems={"center"} w={"24px"} h={"24px"} position={"absolute"} top={2} left={2} >
+              <FaBookmark />
+            </Flex>
+          </Tooltip>
+
+        }
+        {isCatched &&
+          <Tooltip label="Catched">
+            <Avatar position={"absolute"} size={"xs"} src="/logo.png" top={2} right={2} />
+          </Tooltip>
+        }
         <AspectRatio w="full" ratio={1}>
           <Image
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokemonData.id}.png`}
