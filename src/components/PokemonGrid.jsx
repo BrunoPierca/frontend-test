@@ -5,15 +5,18 @@ import PokemonModal from "./PokemonModal";
 import { itemsPerPage } from "@/utils/pokemon";
 import { useRouter } from "next/router";
 
-const PokemonGrid = ({ size, isLoading, setSize, data }) => {
+const PokemonGrid = ({ size, isLoading, setSize, data, catchedPokemons = [], savedPokemons = [] }) => {
     const pokemonDataModal = useDisclosure();
     const router = useRouter()
     const [selectedPokemon, setSelectedPokemon] = useState();
-
     const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
 
     function handleViewPokemon(pokemon) {
-        setSelectedPokemon(pokemon);
+        setSelectedPokemon({
+            ...pokemon,
+            isCatched: catchedPokemons.find(element => element.name === pokemon.name) ? true : false,
+            isSaved: savedPokemons.find(element => element.name === pokemon.name) ? true : false
+        });
         pokemonDataModal.onOpen();
     }
     return (
@@ -24,6 +27,8 @@ const PokemonGrid = ({ size, isLoading, setSize, data }) => {
                         key={pokemon.url}
                         handleViewPokemon={handleViewPokemon}
                         pokemon={pokemon}
+                        isCatched={catchedPokemons.find(element => element.name === pokemon.name) ? true : false}
+                        isSaved={savedPokemons.find(element => element.name === pokemon.name) ? true : false}
                     />))}
                 </SimpleGrid>
 
@@ -33,7 +38,7 @@ const PokemonGrid = ({ size, isLoading, setSize, data }) => {
                     onClick={() =>
                         data[0].count > itemsPerPage ? setSize(size + 1) : router.push("/")}
                 >
-                    {data[0].count > itemsPerPage ? "Load more" : "Catch more"}
+                    {data[0].count > itemsPerPage ? "Load more" : "See more"}
                 </Button>
                 :
                 "No pokemons to show"
