@@ -1,42 +1,10 @@
 import Head from "next/head";
 import useSWRInfinite from 'swr/infinite'
-import axios from "axios";
-import { useState } from "react";
-import {
-  Container,
-  Stack,
-  Button,
-  SimpleGrid,
-  Flex,
-  useDisclosure,
-  Skeleton,
-} from "@chakra-ui/react";
-
-import PokemonCard from "@/components/PokemonCard";
-import PokemonModal from "@/components/PokemonModal";
-
-import Navbar, { navbarHeight } from "@/components/Navbar";
 import PokemonGrid from "@/components/PokemonGrid";
+import { fetchPokemonList, getPokeapiKey } from "@/utils/pokemon";
 
-const fetchPokemonList = async (url) => {
-  try {
-    const { data } = await axios.get(url)
-    return data
-  } catch (error) {
-    console.log(error)
-    return error
-  }
-}
-
-
-const itemsPerPage = 20;
-
-const getKey = (pageIndex) => {
-  // add the cursor to the API endpoint
-  return `https://pokeapi.co/api/v2/pokemon/?limit=${itemsPerPage}&offset=${itemsPerPage * pageIndex}`
-}
 export default function Home() {
-  const pokemonData = useSWRInfinite(getKey, fetchPokemonList);
+  const pokemonData = useSWRInfinite(getPokeapiKey, fetchPokemonList);
   return (
     <>
       <Head>
