@@ -82,6 +82,7 @@ export default function PokemonCard({ pokemon, isCatched, isSaved, handleViewPok
             alt={`Picture of a ${pokemon.name}`}
             width={"100%"}
             height={"100%"}
+            loading="lazy"
           />
         </AspectRatio>
         <Text textAlign="center" textTransform="Capitalize">
