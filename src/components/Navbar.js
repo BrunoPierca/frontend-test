@@ -1,11 +1,13 @@
-import { Button, Flex, Input, InputGroup, InputRightElement, Select, Text, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Button, Flex, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuList, Select, Text, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { GoLightBulb } from "react-icons/go";
 import { MdDarkMode } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
+import { LuMenu } from "react-icons/lu";
 
 
 import Image from 'next/image'
 import { useState } from 'react';
+import Link from 'next/link';
 
 export const navbarHeight = "64px"
 
@@ -47,10 +49,24 @@ const Navbar = () => {
                     </InputRightElement>
                 </InputGroup>
             </Flex>
-
-            <Button onClick={toggleColorMode}>
-                {colorMode === 'light' ? <MdDarkMode /> : <GoLightBulb />}
-            </Button>
+            <Flex gap={2}>
+                <Button onClick={toggleColorMode}>
+                    {colorMode === 'light' ? <MdDarkMode /> : <GoLightBulb />}
+                </Button>
+                <Menu placement='bottom-end'>
+                    <MenuButton as={Button} >
+                        <LuMenu />
+                    </MenuButton>
+                    <MenuList>
+                        <Link href="saved">
+                            <MenuItem>Saved</MenuItem>
+                        </Link>
+                        <Link href="catched">
+                            <MenuItem>Catched</MenuItem>
+                        </Link>
+                    </MenuList>
+                </Menu>
+            </Flex>
 
         </Flex>
     )
