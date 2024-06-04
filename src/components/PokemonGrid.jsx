@@ -26,7 +26,7 @@ const PokemonGrid = ({ size, isLoading, setSize, data }) => {
 
             </Skeleton>
             <Button isLoading={isLoadingMore} onClick={() => setSize(size + 1)}>
-                Cargar más
+                Load more
             </Button>
             <PokemonModal pokemonDataModal={pokemonDataModal} selectedPokemon={selectedPokemon} />
         </>
