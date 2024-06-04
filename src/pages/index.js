@@ -1,47 +1,46 @@
 import Head from "next/head";
+import useSWRInfinite from 'swr/infinite'
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Container,
   Stack,
   Button,
   SimpleGrid,
   Flex,
-  Box,
-  Modal,
-  ModalOverlay,
-  ModalHeader,
-  ModalBody,
-  ModalContent,
-  ModalCloseButton,
   useDisclosure,
+  Skeleton,
 } from "@chakra-ui/react";
-import PokemonCard from "@/components/PokemonCard";
-import PokemonData from "@/components/PokemonData";
 
+import PokemonCard from "@/components/PokemonCard";
+import PokemonModal from "@/components/PokemonModal";
+
+import Navbar, { navbarHeight } from "@/components/Navbar";
+
+const fetchPokemonList = async (url) => {
+  try {
+    const { data } = await axios.get(url)
+    return data
+  } catch (error) {
+    console.log(error)
+    return error
+  }
+}
+
+
+const itemsPerPage = 20;
+
+const getKey = (pageIndex) => {
+  // add the cursor to the API endpoint
+  return `https://pokeapi.co/api/v2/pokemon/?limit=${itemsPerPage}&offset=${itemsPerPage * pageIndex}`
+}
 export default function Home() {
   const pokemonDataModal = useDisclosure();
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [pokemon, setPokemon] = useState([]);
+  const { data, error, isLoading, setSize, size } = useSWRInfinite(getKey, fetchPokemonList);
   const [selectedPokemon, setSelectedPokemon] = useState();
-  const [currentPage, setCurrentPage] = useState(
-    "https://pokeapi.co/api/v2/pokemon/?limit=20&offset=0"
-  );
 
-  useEffect(() => {
-    setIsLoading(true);
-    axios.get(currentPage).then(async ({ data }) => {
-      const promises = data.results.map((result) => axios(result.url));
-      const fetchedPokemon = (await Promise.all(promises)).map(
-        (res) => res.data
-      );
-      setPokemon((prev) => [...prev, ...fetchedPokemon]);
-      setIsLoading(false);
-    });
-  }, [currentPage]);
-
-  function handleNextPage() { }
+  const isLoadingMore = isLoading || (size > 0 && data && typeof data[size - 1] === "undefined");
 
   function handleViewPokemon(pokemon) {
     setSelectedPokemon(pokemon);
@@ -56,39 +55,28 @@ export default function Home() {
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <Flex alignItems="center" minH="100vh" justifyContent="center">
-        <Container maxW="container.lg">
-          <Stack p="5" alignItems="center" spacing="5">
-            <SimpleGrid spacing="5" columns={{ base: 1, md: 5 }}>
-              {pokemon.map((pokemon) => (
-                <Box
-                  as="button"
-                  key={pokemon.id}
-                  onClick={() => handleViewPokemon(pokemon)}
-                >
-                  <PokemonCard pokemon={pokemon} />
-                </Box>
-              ))}
-            </SimpleGrid>
 
-            <Button isLoading={false} onClick={handleNextPage}>
-              Cargas más
+      <Flex alignItems="center" direction={"column"} minH="100vh" justifyContent="center">
+        <Navbar />
+        <Container paddingTop={navbarHeight} maxW="container.lg">
+          <Stack p="5" alignItems="center" spacing="5">
+            <Skeleton isLoaded={!isLoading}>
+              <SimpleGrid spacing="5" columns={{ base: 1, md: 5 }}>
+                {data && data.map((page) => page.results.map((pokemon) => <PokemonCard
+                  key={pokemon.url}
+                  handleViewPokemon={handleViewPokemon}
+                  pokemon={pokemon}
+                />))}
+              </SimpleGrid>
+
+            </Skeleton>
+            <Button isLoading={isLoadingMore} onClick={() => setSize(size + 1)}>
+              Cargar más
             </Button>
           </Stack>
         </Container>
       </Flex>
-      <Modal {...pokemonDataModal}>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader textTransform="capitalize">
-            {selectedPokemon?.name}
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            {selectedPokemon && <PokemonData pokemon={selectedPokemon} />}
-          </ModalBody>
-        </ModalContent>
-      </Modal>
+      <PokemonModal pokemonDataModal={pokemonDataModal} selectedPokemon={selectedPokemon} />
     </>
   );
 }
