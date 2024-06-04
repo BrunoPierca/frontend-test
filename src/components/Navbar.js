@@ -58,6 +58,9 @@ const Navbar = () => {
                         <LuMenu />
                     </MenuButton>
                     <MenuList>
+                        <Link href="/">
+                            <MenuItem>All</MenuItem>
+                        </Link>
                         <Link href="saved">
                             <MenuItem>Saved</MenuItem>
                         </Link>
