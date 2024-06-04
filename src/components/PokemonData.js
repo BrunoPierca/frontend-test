@@ -1,3 +1,4 @@
+import { catchPokemon, savePokemon } from "@/utils/pokemon";
 import {
   AspectRatio,
   Image,
@@ -24,6 +25,50 @@ export default function PokemonData({ pokemon }) {
 
   const bg = useColorModeValue('rgba(255, 255, 255, 0.8)', 'rgba(26, 32, 44, 0.8)')
   const progressBg = useColorModeValue('gray.300', 'gray.700')
+
+
+  const handleSave = async (pokemon) => {
+    try {
+      await savePokemon(pokemon)
+      toast({
+        title: `Saved ${pokemon.name}`,
+        description: "Check it in saved list",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: `Couldn't save ${pokemon.name}`,
+        description: "Please try again later",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
+  const handleCatch = async (pokemon) => {
+    try {
+      await catchPokemon(pokemon)
+      toast({
+        title: `Catched ${pokemon.name}`,
+        description: "Check it in saved list",
+        status: 'success',
+        duration: 9000,
+        isClosable: true,
+      })
+    } catch (error) {
+      console.log(error)
+      toast({
+        title: `Couldn't catch ${pokemon.name}`,
+        description: "Please try again later",
+        status: 'error',
+        duration: 9000,
+        isClosable: true,
+      })
+    }
+  }
 
   return (
     <Stack spacing="5" pb="5">
@@ -54,25 +99,13 @@ export default function PokemonData({ pokemon }) {
           }
         </Stack>
         <Flex direction={["row"]} gap={5} justifyContent={"space-evenly"} alignItems={"center"}>
-          <Button variant={"outline"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => toast({
-            title: `Saved ${pokemon.name}`,
-            description: "Check it in saved list",
-            status: 'success',
-            duration: 9000,
-            isClosable: true,
-          })}
+          <Button variant={"outline"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => handleSave(pokemon)}
           >
             <MdOutlineCollectionsBookmark />
             <Text>Save</Text>
           </Button>
           <Button variant={"solid"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2}
-            onClick={() => toast({
-              title: `Catched ${pokemon.name}`,
-              description: "Congratulations! You have catched this pokemon",
-              status: 'success',
-              duration: 9000,
-              isClosable: true,
-            })}>
+            onClick={() => handleCatch(pokemon)}>
             <MdCatchingPokemon />
             <Text>Catched</Text>
           </Button>
