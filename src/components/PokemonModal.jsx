@@ -9,7 +9,7 @@ const PokemonModal = ({ pokemonDataModal, selectedPokemon }) => {
                 <ModalHeader textTransform="capitalize" px={[4, 6]}>
                     {selectedPokemon?.name}
                 </ModalHeader>
-                <ModalCloseButton />
+                <ModalCloseButton title='Close modal' />
                 <ModalBody px={[4, 6]} >
                     {selectedPokemon && <PokemonData onToggleModal={pokemonDataModal.onToggle} pokemon={selectedPokemon} />}
                 </ModalBody>

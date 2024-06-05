@@ -24,7 +24,7 @@ const PokemonGrid = ({ size, isLoading, setSize, data, catchedPokemons = [], sav
 
     return (
         <>
-            <Skeleton isLoaded={!isLoading || !data}>
+            <Skeleton isLoaded={!isLoading || data}>
                 <SimpleGrid spacing="5" columns={{ base: 1, md: pokemonQtty > 5 ? 5 : pokemonQtty }}>
                     {data && data[0].results && data.map((page) => page.results.map((pokemon) => <PokemonCard
                         key={pokemon.url}
@@ -37,7 +37,7 @@ const PokemonGrid = ({ size, isLoading, setSize, data, catchedPokemons = [], sav
 
             </Skeleton>
             {data && data[0].results ?
-                <Button isLoading={isLoadingMore}
+                <Button title="See more" isLoading={isLoadingMore}
                     onClick={() =>
                         data[0].count > itemsPerPage ? setSize(size + 1) : router.push("/")}
                 >

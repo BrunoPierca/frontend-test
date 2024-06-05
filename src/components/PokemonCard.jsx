@@ -65,7 +65,7 @@ export default function PokemonCard({ pokemon, isCatched, isSaved, handleViewPok
       >
         {isSaved &&
           <Tooltip label="Saved">
-            <Flex justifyContent={"center"} alignItems={"center"} w={"24px"} h={"24px"} position={"absolute"} top={2} left={2} >
+            <Flex title="Saved icon" justifyContent={"center"} alignItems={"center"} w={"24px"} h={"24px"} position={"absolute"} top={2} left={2} >
               <FaBookmark />
             </Flex>
           </Tooltip>
@@ -73,7 +73,7 @@ export default function PokemonCard({ pokemon, isCatched, isSaved, handleViewPok
         }
         {isCatched &&
           <Tooltip label="Catched">
-            <Avatar position={"absolute"} size={"xs"} src="/logo.png" alt="pokeball image" top={2} right={2} />
+            <Avatar position={"absolute"} size={"xs"} src="/logo.png" name="Catched icon" top={2} right={2} />
           </Tooltip>
         }
         <AspectRatio w="full" ratio={1}>

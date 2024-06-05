@@ -55,17 +55,17 @@ const Navbar = () => {
             <Flex background={inputForegroundBg} transition={"all"} >
                 <InputGroup as={"form"} onSubmit={(e) => handleSearch(e)}>
                     <Input textAlign={"center"} value={term} onChange={(e) => setTerm(e.target.value)} opacity={1} variant='filled' placeholder='Search' />
-                    <InputRightElement cursor={"pointer"} as={"button"} type='submit'>
+                    <InputRightElement cursor={"pointer"} title="Search Button" as={"button"} type='submit'>
                         <FaSearch />
                     </InputRightElement>
                 </InputGroup>
             </Flex>
             <Flex gap={2}>
-                <Button name='Toggle theme' onClick={toggleColorMode}>
+                <Button title='Toggle theme' onClick={toggleColorMode}>
                     {colorMode === 'light' ? <MdDarkMode /> : <GoLightBulb />}
                 </Button>
                 <Menu placement='bottom-end'>
-                    <MenuButton name='Toggle menu' as={Button} >
+                    <MenuButton title='Toggle menu' as={Button} >
                         <LuMenu />
                     </MenuButton>
                     <MenuList>

@@ -130,13 +130,13 @@ export default function PokemonData({ pokemon, onToggleModal }) {
         </Stack>
         <Flex direction={["row"]} gap={5} justifyContent={"space-evenly"} alignItems={"center"}>
           {pokemon.isSaved ?
-            <Button name="Remove from saved" variant={"outline"} colorScheme={"red"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => handleRemoveSaved(pokemon)}
+            <Button title="Remove from saved" variant={"outline"} colorScheme={"red"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => handleRemoveSaved(pokemon)}
             >
               <MdOutlineCollectionsBookmark />
               <Text>Remove</Text>
             </Button>
             :
-            <Button name="Save Pokemon" variant={"outline"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => handleSave(pokemon)}
+            <Button title="Save Pokemon" variant={"outline"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => handleSave(pokemon)}
             >
               <MdOutlineCollectionsBookmark />
               <Text>Save</Text>
@@ -144,13 +144,13 @@ export default function PokemonData({ pokemon, onToggleModal }) {
           }
 
           {pokemon.isCatched ?
-            <Button name="Release pokemon" variant={"outline"} colorScheme={"green"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => handleRelease(pokemon)}
+            <Button title="Release pokemon" variant={"outline"} colorScheme={"green"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2} onClick={() => handleRelease(pokemon)}
             >
               <MdOutlineCollectionsBookmark />
               <Text>Release</Text>
             </Button>
             :
-            <Button name="Mark pokemon as catched" variant={"solid"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2}
+            <Button title="Mark pokemon as catched" variant={"solid"} display={"flex"} w={"100%"} fontSize={"medium"} gap={2}
               onClick={() => handleCatch(pokemon)}>
               <MdCatchingPokemon />
               <Text>Catched</Text>
