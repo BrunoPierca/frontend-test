@@ -6,13 +6,8 @@ import { getServerSavedPokemons } from "./api/saved";
 import { getServerCatchedPokemons } from "./api/catched";
 
 
-export async function getStaticProps() {
+export async function getServerSideProps() {
   const initialPokemonsFromAPI = await fetchPokemonList(`https://pokeapi.co/api/v2/pokemon/?limit=${itemsPerPage}&offset=0`)
-
-  // Ideally these 2 should be used within getServersideProps, but you can't mix ISR and getServersideProps.
-  // This approach will show the cached initial data as soon as the user opens the page, when done it will revalidate and update if necessary.
-  // There could be further improvement for initial page load with this API, but it wouldn't be as representative of the reality of other APIs
-  
   const catchedPokemons = await getServerCatchedPokemons()
   const savedPokemons = await getServerSavedPokemons()
   return {
@@ -21,7 +16,6 @@ export async function getStaticProps() {
       savedPokemons,
       catchedPokemons
     },
-    revalidate: 60, // Seconds
   }
 }
 
