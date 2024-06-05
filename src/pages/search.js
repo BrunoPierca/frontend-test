@@ -4,12 +4,14 @@ import useSWRInfinite from 'swr/infinite';
 import { fetchPokemonList, getUnpaginatedPokeapiKey } from '@/utils/pokemon';
 import { useMemo, useState } from 'react';
 import PokemonGrid from '@/components/PokemonGrid';
+import { getServerCatchedPokemons } from './api/catched';
+import { getServerSavedPokemons } from './api/saved';
 
-// export const getServerSideProps = (async () => {
-//     const catchedPokemons = await getServerCatchedPokemons()
-//     const savedPokemons = await getServerSavedPokemons()
-//     return { props: { savedPokemons, catchedPokemons } }
-// })
+export const getServerSideProps = (async () => {
+    const catchedPokemons = await getServerCatchedPokemons()
+    const savedPokemons = await getServerSavedPokemons()
+    return { props: { savedPokemons, catchedPokemons } }
+})
 
 const SearchPage = ({ savedPokemons, catchedPokemons }) => {
     const { isLoading, data } = useSWRInfinite(getUnpaginatedPokeapiKey, fetchPokemonList);

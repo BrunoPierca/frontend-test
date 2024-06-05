@@ -5,13 +5,11 @@ import { fetchPokemonList, getPokeapiKey } from "@/utils/pokemon";
 import { getServerSavedPokemons } from "./api/saved";
 import { getServerCatchedPokemons } from "./api/catched";
 
-// export const getServerSideProps = (async () => {
-//   // Fetch data from external API
-//   const catchedPokemons = await getServerCatchedPokemons()
-//   const savedPokemons = await getServerSavedPokemons()
-//   // Pass data to the page via props
-//   return { props: { savedPokemons, catchedPokemons } }
-// })
+export const getServerSideProps = (async () => {
+  const catchedPokemons = await getServerCatchedPokemons()
+  const savedPokemons = await getServerSavedPokemons()
+  return { props: { savedPokemons, catchedPokemons } }
+})
 
 export default function Home({ savedPokemons, catchedPokemons }) {
   const pokemonData = useSWRInfinite(getPokeapiKey, fetchPokemonList);

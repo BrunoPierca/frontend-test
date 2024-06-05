@@ -3,12 +3,14 @@ import React from 'react'
 import useSWRInfinite from 'swr/infinite';
 import PokemonGrid from '@/components/PokemonGrid';
 import { fetchPokemonList, } from '@/utils/pokemon';
+import { getServerCatchedPokemons } from './api/catched';
+import { getServerSavedPokemons } from './api/saved';
 
-// export const getServerSideProps = (async () => {
-//     const catchedPokemons = await getServerCatchedPokemons()
-//     const savedPokemons = await getServerSavedPokemons()
-//     return { props: { savedPokemons, catchedPokemons } }
-// })
+export const getServerSideProps = (async () => {
+    const catchedPokemons = await getServerCatchedPokemons()
+    const savedPokemons = await getServerSavedPokemons()
+    return { props: { savedPokemons, catchedPokemons } }
+})
 const SavedPokemonsPage = ({ savedPokemons, catchedPokemons }) => {
     const pokemonData = useSWRInfinite(() => `/api/saved/`, fetchPokemonList);
     return (
