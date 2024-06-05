@@ -1,18 +1,32 @@
 import Head from "next/head";
 import useSWRInfinite from 'swr/infinite'
 import PokemonGrid from "@/components/PokemonGrid";
-import { fetchPokemonList, getPokeapiKey } from "@/utils/pokemon";
+import { fetchPokemonList, getPokeapiKey, itemsPerPage } from "@/utils/pokemon";
 import { getServerSavedPokemons } from "./api/saved";
 import { getServerCatchedPokemons } from "./api/catched";
 
-export const getServerSideProps = (async () => {
+
+export async function getStaticProps() {
+  const initialPokemonsFromAPI = await fetchPokemonList(`https://pokeapi.co/api/v2/pokemon/?limit=${itemsPerPage}&offset=0`)
+
+  // Ideally these 2 should be used within getServersideProps, but you can't mix ISR and getServersideProps.
+  // This approach will show the cached initial data as soon as the user opens the page, when done it will revalidate and update if necessary.
+  // There could be further improvement for initial page load with this API, but it wouldn't be as representative of the reality of other APIs
+  
   const catchedPokemons = await getServerCatchedPokemons()
   const savedPokemons = await getServerSavedPokemons()
-  return { props: { savedPokemons, catchedPokemons } }
-})
+  return {
+    props: {
+      fallbackData: [initialPokemonsFromAPI],
+      savedPokemons,
+      catchedPokemons
+    },
+    revalidate: 60, // Seconds
+  }
+}
 
-export default function Home({ savedPokemons, catchedPokemons }) {
-  const pokemonData = useSWRInfinite(getPokeapiKey, fetchPokemonList);
+export default function Home({ savedPokemons, catchedPokemons, fallbackData }) {
+  const pokemonData = useSWRInfinite(getPokeapiKey, fetchPokemonList, { fallbackData });
   return (
     <>
       <Head>
