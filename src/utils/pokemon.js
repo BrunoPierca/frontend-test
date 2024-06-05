@@ -14,6 +14,16 @@ export const fetchPokemonList = async (url) => {
     }
 }
 
+export const fetchOnePokemon = async (id) => {
+    try {
+        const { data } = await axios.get(id)
+        return data
+    } catch (error) {
+        console.log(error)
+        return error
+    }
+}
+
 // Pokeapi handling
 export const getPokeapiKey = (pageIndex) => {
     return `https://pokeapi.co/api/v2/pokemon/?limit=${itemsPerPage}&offset=${itemsPerPage * pageIndex}`

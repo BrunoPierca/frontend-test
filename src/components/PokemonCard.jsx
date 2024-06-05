@@ -10,20 +10,9 @@ import {
   Tooltip,
   Flex
 } from "@chakra-ui/react";
-import axios from "axios";
 import useSWR from "swr";
 import { FaBookmark } from "react-icons/fa";
-
-const fetchOnePokemon = async (id) => {
-  try {
-    const { data } = await axios.get(id)
-    return data
-  } catch (error) {
-    console.log(error)
-    return error
-  }
-}
-
+import { fetchOnePokemon } from "@/utils/pokemon";
 
 const pokemonTypeColors = [
   { name: "steel", value: "#BEBED7" },
