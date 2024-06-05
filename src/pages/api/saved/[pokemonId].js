@@ -22,9 +22,9 @@ export default async function handler(req, res) {
           "]"
       );
 
-      return res.status(200).send("Pokemon liberado");
+      return res.status(200).send("Released Pokemon");
     } catch {
-      return res.status(409).send("Pokemon no encontrado");
+      return res.status(409).send("Couldn't find pokemon");
     }
   }
   return res.status(405).send("Method not allowed.");
