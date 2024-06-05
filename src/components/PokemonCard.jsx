@@ -1,7 +1,6 @@
 import {
   Stack,
   Text,
-  Image,
   HStack,
   Badge,
   AspectRatio,
@@ -13,28 +12,7 @@ import {
 import useSWR from "swr";
 import { FaBookmark } from "react-icons/fa";
 import { fetchOnePokemon } from "@/utils/pokemon";
-
-// const pokemonTypeColors = [
-//   { name: "steel", value: "#BEBED7" },
-//   { name: "water", value: "#6D96F7" },
-//   { name: "bug", value: "#AEBE24" },
-//   { name: "dragon", value: "#753CFF" },
-//   { name: "electric", value: "#FFD734" },
-//   { name: "ghost", value: "#755D9E" },
-//   { name: "fire", value: "#F75534" },
-//   { name: "ice", value: "#9EDFDF" },
-//   { name: "fighting", value: "#96342C" },
-//   { name: "normal", value: "#AEAE7D" },
-//   { name: "grass", value: "#7DCF55" },
-//   { name: "psychic", value: "#FF5D8E" },
-//   { name: "rock", value: "#BEA63C" },
-//   { name: "dark", value: "#968E8E" },
-//   { name: "ground", value: "#E7C76D" },
-//   { name: "poison", value: "#A645A6" },
-//   { name: "flying", value: "#AE96F7" },
-//   { name: "fairy", value: "#FFAAFF" },
-//   { name: "?", value: "" },
-// ]
+import Image from "next/image";
 
 const pokemonTypeColors = [
   { name: "steel", bgColor: "#BEBED7", textColor: "#000000" },
@@ -59,7 +37,7 @@ const pokemonTypeColors = [
 ];
 
 
-export default function PokemonCard({ pokemon, isCatched, isSaved, handleViewPokemon }) {
+export default function PokemonCard({ pokemon, priority = false, isCatched, isSaved, handleViewPokemon }) {
   const { data: pokemonData, isLoading } = useSWR(`pokemon-${pokemon.name}}`, () => fetchOnePokemon(pokemon.url));
   if (isLoading) return
   return (
@@ -92,9 +70,10 @@ export default function PokemonCard({ pokemon, isCatched, isSaved, handleViewPok
           <Image
             src={`https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/home/${pokemonData.id}.png`}
             alt={`Picture of a ${pokemon.name}`}
-            width={"100%"}
-            height={"100%"}
-            loading="lazy"
+            width={120}
+            height={120}
+            loading={priority ? undefined : "lazy"}
+            priority={priority}
           />
         </AspectRatio>
         <Text textAlign="center" textTransform="Capitalize">

@@ -26,10 +26,11 @@ const PokemonGrid = ({ size, isLoading, setSize, data, catchedPokemons = [], sav
         <>
             <Skeleton isLoaded={!isLoading || data}>
                 <SimpleGrid spacing="5" columns={{ base: 1, md: pokemonQtty > 5 ? 5 : pokemonQtty }}>
-                    {data && data[0].results && data.map((page) => page.results.map((pokemon) => <PokemonCard
+                    {data && data[0].results && data.map((page) => page.results.map((pokemon, index) => <PokemonCard
                         key={pokemon.url}
                         handleViewPokemon={handleViewPokemon}
                         pokemon={pokemon}
+                        priority={index > 20 ? false : true}
                         isCatched={catchedPokemons.find(element => element.name === pokemon.name) ? true : false}
                         isSaved={savedPokemons.find(element => element.name === pokemon.name) ? true : false}
                     />))}
