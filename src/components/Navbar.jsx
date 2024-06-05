@@ -1,10 +1,8 @@
-import { Button, Flex, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItem, MenuItemOption, MenuList, MenuOptionGroup, Select, Text, useColorMode, useColorModeValue } from '@chakra-ui/react'
+import { Button, Flex, Input, InputGroup, InputRightElement, Menu, MenuButton, MenuItemOption, MenuList, MenuOptionGroup, Text, useColorMode, useColorModeValue } from '@chakra-ui/react'
 import { GoLightBulb } from "react-icons/go";
 import { MdDarkMode } from "react-icons/md";
 import { FaSearch } from "react-icons/fa";
 import { LuMenu } from "react-icons/lu";
-
-
 import Image from 'next/image'
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -19,10 +17,16 @@ const Navbar = () => {
     const inputForegroundBg = useColorModeValue('rgb(255, 255, 255)', 'rgb(26, 32, 44)')
 
     const router = useRouter()
-    // useEffect(() => {
-    //     if (term <= 0) { router.push("/") } else { router.push(`/search?term=${term}`) }
-    // }, [term])
 
+
+    const handleSearch = (e) => {
+        e.preventDefault()
+        if (term <= 0) { router.push("/") } else { router.push(`/search?term=${term}`) }
+    }
+
+    useEffect(() => {
+        if (router.query && router.query.term) { setTerm(router.query.term) }
+    }, [router.query])
     return (
         <Flex id="navbar"
             w={"100%"}
@@ -39,17 +43,19 @@ const Navbar = () => {
             top={0}
             zIndex={20}
         >
-            <Flex alignItems={"center"} gap={2}>
-                <Image width={32} height={32} src="/logo.png" alt='Pokeball logo' />
-                <Text display={["none", "block"]}>
-                    Pokédex
-                </Text>
-            </Flex>
+            <Link href={"/"}>
+                <Flex alignItems={"center"} gap={2}>
+                    <Image width={32} height={32} src="/logo.png" alt='Pokeball logo' />
+                    <Text display={["none", "block"]}>
+                        Pokédex
+                    </Text>
+                </Flex>
+            </Link>
 
             <Flex background={inputForegroundBg} transition={"all"} >
-                <InputGroup>
+                <InputGroup as={"form"} onSubmit={(e) => handleSearch(e)}>
                     <Input textAlign={"center"} value={term} onChange={(e) => setTerm(e.target.value)} opacity={1} variant='filled' placeholder='Search' />
-                    <InputRightElement cursor={"pointer"}>
+                    <InputRightElement cursor={"pointer"} as={"button"} type='submit'>
                         <FaSearch />
                     </InputRightElement>
                 </InputGroup>
